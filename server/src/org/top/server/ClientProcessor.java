@@ -1,6 +1,8 @@
 package org.top.server;
 
 
+import org.top.account.Account;
+import org.top.account.AccountList;
 import org.top.communication.Receiver;
 import org.top.communication.Sender;
 import org.top.log.ConnectionLog;
@@ -10,6 +12,7 @@ import org.top.quotagen.IGenerator;
 import java.io.IOException;
 import java.net.Socket;
 import java.time.LocalDateTime;
+
 
 // класс-обработчик одного клиента
 // запускается в отдельном потоке и работает с клиентом
@@ -22,13 +25,21 @@ public class ClientProcessor {
     }
 
     private Socket remoteClient;
-    private IGenerator generator;
+    private final IGenerator generator;
+    private final AccountList accounts = new AccountList();
 
     // конструктор
     public ClientProcessor(IGenerator generator) {
         isFree = true;
         remoteClient = null;
         this.generator = generator;
+        prepareAccountList();
+    }
+    
+    private void prepareAccountList() {
+        accounts.add("user1", "123");
+        accounts.add("user2", "555");
+        accounts.add("user3", "java113");
     }
 
     // подготовка работы с клиентом
@@ -41,7 +52,7 @@ public class ClientProcessor {
     }
 
     // работа с клиентом
-    public void processClient(ConnectionLog log, int quotesLimit) throws IOException {
+    public void processClient(ConnectionLog log) throws IOException {
         Sender sender = null;
         Receiver receiver = null;
         boolean stop = false;
@@ -51,12 +62,14 @@ public class ClientProcessor {
             sender = new Sender(remoteClient);
             receiver = new Receiver(remoteClient);
 
-            sender.sendMsg("server: welcome to quote generator user: " +
+            sender.sendMsg("server: welcome to quote generator user " +
                     remoteClient.getInetAddress() + ":" + remoteClient.getPort());
+
+            Account account = null;
 
             //проверка логина
             while (true) {
-                if (log.getLoginAttempts() == 3) {
+                if (log.getLoginAttempts() == Server.LOGIN_ATTEMPTS_LIMIT + 1) {
                     stop = true;
                     sender.sendMsg("server: you have no more attempts");
                     sender.sendMsg("server: bye");
@@ -67,18 +80,20 @@ public class ClientProcessor {
                 sender.sendMsg("server: enter login: ");
                 String login = receiver.receiveMsg();
 
-                log.setLoginAttempts(log.getLoginAttempts() + 1);
-                if (login.equals("user1")) {
+                account = accounts.getAccountByLogin(login);
+                
+                if (account != null) {
                     break;
                 } else {
                     sender.sendMsg("server: wrong login. Try again");
+                    log.setLoginAttempts(log.getLoginAttempts() + 1);
                 }
             }
 
             if (!stop) {
                 //проверка пароля
                 while (true) {
-                    if (log.getLoginAttempts() == 3) {
+                    if (log.getLoginAttempts() == Server.LOGIN_ATTEMPTS_LIMIT + 1) {
                         stop = true;
                         sender.sendMsg("server: you have no more attempts. Max attempts - 3");
                         sender.sendMsg("server: bye");
@@ -89,11 +104,11 @@ public class ClientProcessor {
                     sender.sendMsg("server: enter password: ");
                     String pass = receiver.receiveMsg();
 
-                    log.setLoginAttempts(log.getLoginAttempts() + 1);
-                    if (pass.equals("123")) {
+                    if (account.getPassword() == pass.hashCode()) {
                         break;
                     } else {
                         sender.sendMsg("server: wrong password. Try again");
+                        log.setLoginAttempts(log.getLoginAttempts() + 1);
                     }
                 }
             }
@@ -109,7 +124,7 @@ public class ClientProcessor {
 
                     // 2. анализируем сообщение
                     if (msg.equals("quote")) {
-                        if (log.getQuotes().size() == quotesLimit) {
+                        if (log.getQuotes().size() == Server.QUOTES_LIMIT) {
                             sender.sendMsg("server: you have exceeded the limit of quotes");
                             sender.sendMsg("server: bye");
                             log.setStopConnection(LocalDateTime.now());

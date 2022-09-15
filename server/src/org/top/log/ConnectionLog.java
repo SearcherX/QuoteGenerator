@@ -11,7 +11,7 @@ public class ConnectionLog {
     private final LocalDateTime startConnection;
     private final ArrayList<String> quotes = new ArrayList<>();
     private LocalDateTime stopConnection;
-    private int loginAttempts = 0;
+    private int loginAttempts = 1;
 
     public ConnectionLog(String ipStr, int port, LocalDateTime startConnection) {
         this.address = new Address(ipStr, port);

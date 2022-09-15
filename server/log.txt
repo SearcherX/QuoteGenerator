@@ -1,0 +1,17 @@
+client: /127.0.0.1:52947
+connection time: 15.09.2022 18:51:26
+log in attempts: 1
+quotes set: [
+It is better to fail in originality than to succeed in imitation. ~Herman Melville
+]
+disconnection time: 15.09.2022 18:51:55
+
+client: /127.0.0.1:53007
+connection time: 15.09.2022 18:54:29
+log in attempts: 1
+quotes set: [
+Develop success from failures. Discouragement and failure are two of the surest stepping stones to success. ~Dale Carnegie
+Be miserable. Or motivate yourself. Whatever has to be done, it's always your choice. ~Wayne Dyer
+]
+disconnection time: 15.09.2022 18:54:43
+
