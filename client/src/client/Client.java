@@ -35,14 +35,10 @@ public class Client {
             while (true) {
                 String serverMsg = receiver.receiveMsg();
 
-                if (serverMsg.equals("server> enter login: ")) {
+                if (serverMsg.equals("server> enter login: ") || serverMsg.equals("server> enter password: ")) {
                     System.out.print(serverMsg);
-                    String login = in.next();
-                    sender.sendMsg(login);
-                } else if (serverMsg.equals("server> enter password: ")) {
-                    System.out.print(serverMsg);
-                    String password = in.next();
-                    sender.sendMsg(password);
+                    String clientMsg = in.next();
+                    sender.sendMsg(clientMsg);
                 } else if (serverMsg.equals("server> bye")) {
                     System.out.println(serverMsg);
                     break;
