@@ -83,7 +83,7 @@ public class ClientProcessor {
                     break;
                 } else {
                     sender.sendMsg("server> wrong login. remaining attempts - " +
-                            (Server.LOGIN_ATTEMPTS_LIMIT - log.getLoginAttempts()));
+                            (Server.LOGIN_ATTEMPTS_LIMIT - 1 - log.getLoginAttempts()));
                     log.setLoginAttempts(log.getLoginAttempts() + 1);
                 }
             }
@@ -103,7 +103,7 @@ public class ClientProcessor {
                         break;
                     } else {
                         sender.sendMsg("server> wrong password. remaining attempts - " +
-                                (Server.LOGIN_ATTEMPTS_LIMIT - log.getLoginAttempts()));
+                                (Server.LOGIN_ATTEMPTS_LIMIT - 1 - log.getLoginAttempts()));
                     }
                 }
             }

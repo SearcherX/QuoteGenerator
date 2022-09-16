@@ -1,15 +1,8 @@
-client: /127.0.0.1:58532
-connection time: 16.09.2022 11:14:27
+client: /192.168.1.4:61728
+connection time: 16.09.2022 12:59:47
 failed log in attempts: 0
 quotes set: [
-The road to success and the road to failure are almost exactly the same. ~Colin R. Davis
+Blessed are those who can give without remembering and take without forgetting. ~Anonymous
 ]
-disconnection time: 16.09.2022 11:14:35
-
-client: /127.0.0.1:58535
-connection time: 16.09.2022 11:14:41
-failed log in attempts: 3
-quotes set: [
-]
-disconnection time: 16.09.2022 11:14:45
+disconnection time: 16.09.2022 12:59:56
 
