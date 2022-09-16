@@ -1,8 +1,20 @@
-client: /192.168.1.4:61728
-connection time: 16.09.2022 12:59:47
-failed log in attempts: 0
+client: /192.168.1.2:62341
+connection time: 16.09.2022 13:15:57
+failed log in attempts: 1
 quotes set: [
-Blessed are those who can give without remembering and take without forgetting. ~Anonymous
+Success is the sum of small efforts, repeated day-in and day-out. ~Robert Collier
+As we look ahead into the next century, leaders will be those who empower others. ~Bill Gates
 ]
-disconnection time: 16.09.2022 12:59:56
+disconnection time: 16.09.2022 13:17:24
+
+client: /192.168.1.4:62360
+connection time: 16.09.2022 13:22:26
+failed log in attempts: 1
+quotes set: [
+No masterpiece was ever created by a lazy artist.~ Anonymous
+You may have to fight a battle more than once to win it. ~Margaret Thatcher
+Happiness is a butterfly, which when pursued, is always beyond your grasp, but which, if you will sit down quietly, may alight upon you. ~Nathaniel Hawthorne
+No masterpiece was ever created by a lazy artist.~ Anonymous
+]
+disconnection time: 16.09.2022 13:23:11
 
