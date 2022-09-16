@@ -62,22 +62,19 @@ public class ClientProcessor {
             sender = new Sender(remoteClient);
             receiver = new Receiver(remoteClient);
 
-            sender.sendMsg("server: welcome to quote generator user " +
+            sender.sendMsg("server> welcome to quote generator user " +
                     remoteClient.getInetAddress() + ":" + remoteClient.getPort());
 
             Account account = null;
 
             //проверка логина
             while (true) {
-                if (log.getLoginAttempts() == Server.LOGIN_ATTEMPTS_LIMIT + 1) {
+                if (log.getLoginAttempts() == Server.LOGIN_ATTEMPTS_LIMIT) {
                     stop = true;
-                    sender.sendMsg("server: you have no more attempts");
-                    sender.sendMsg("server: bye");
-                    log.setStopConnection(LocalDateTime.now());
-                    FileLog.writeLog(log.toString());
+                    sender.sendMsg("server> you have no more attempts");
                     break;
                 }
-                sender.sendMsg("server: enter login: ");
+                sender.sendMsg("server> enter login: ");
                 String login = receiver.receiveMsg();
 
                 account = accounts.getAccountByLogin(login);
@@ -85,7 +82,8 @@ public class ClientProcessor {
                 if (account != null) {
                     break;
                 } else {
-                    sender.sendMsg("server: wrong login. Try again");
+                    sender.sendMsg("server> wrong login. remaining attempts - " +
+                            (Server.LOGIN_ATTEMPTS_LIMIT - log.getLoginAttempts()));
                     log.setLoginAttempts(log.getLoginAttempts() + 1);
                 }
             }
@@ -93,28 +91,25 @@ public class ClientProcessor {
             if (!stop) {
                 //проверка пароля
                 while (true) {
-                    if (log.getLoginAttempts() == Server.LOGIN_ATTEMPTS_LIMIT + 1) {
+                    if (log.getLoginAttempts() == Server.LOGIN_ATTEMPTS_LIMIT) {
                         stop = true;
-                        sender.sendMsg("server: you have no more attempts. Max attempts - 3");
-                        sender.sendMsg("server: bye");
-                        log.setStopConnection(LocalDateTime.now());
-                        FileLog.writeLog(log.toString());
+                        sender.sendMsg("server> you have no more attempts");
                         break;
                     }
-                    sender.sendMsg("server: enter password: ");
+                    sender.sendMsg("server> enter password: ");
                     String pass = receiver.receiveMsg();
 
                     if (account.getPassword() == pass.hashCode()) {
                         break;
                     } else {
-                        sender.sendMsg("server: wrong password. Try again");
-                        log.setLoginAttempts(log.getLoginAttempts() + 1);
+                        sender.sendMsg("server> wrong password. remaining attempts - " +
+                                (Server.LOGIN_ATTEMPTS_LIMIT - log.getLoginAttempts()));
                     }
                 }
             }
 
             if (!stop) {
-                sender.sendMsg("server: logged in successfully");
+                sender.sendMsg("server> logged in successfully");
                 int i = 1;
                 // цикл работы с клиентом
                 while (true) {
@@ -126,30 +121,27 @@ public class ClientProcessor {
                     if (msg.equals("quote")) {
                         if (log.getQuotes().size() == Server.QUOTES_LIMIT) {
                             sender.sendMsg("server: you have exceeded the limit of quotes");
-                            sender.sendMsg("server: bye");
-                            log.setStopConnection(LocalDateTime.now());
-                            FileLog.writeLog(log.toString());
                             break;
                         }
                         // то отправить цитату
                         String quote = generator.getRandomQuota();
                         //добавить в лог цитату, отправленную клиенту
-                        sender.sendMsg("server: " + i++ + ". " + quote);
+                        sender.sendMsg("server> " + i++ + ". " + quote);
                         log.addQuote(quote);
                     } else if (msg.equals("exit")) {
-                        sender.sendMsg("server: bye");
-                        //добавить в лог время отсоединения клиента
-                        log.setStopConnection(LocalDateTime.now());
-                        FileLog.writeLog(log.toString());
                         break;
                     } else {
-                        sender.sendMsg("server: invalid command");
+                        sender.sendMsg("server> invalid command");
                     }
                 }
             }
+            sender.sendMsg("server> bye");
+            //добавить в лог время отсоединения клиента
+            log.setStopConnection(LocalDateTime.now());
+            FileLog.writeLog(log.toString());
         }
         catch (Exception ex) {
-            System.out.println("server: something wrong during processing client: " + ex.getMessage());
+            System.out.println("server> something wrong during processing client: " + ex.getMessage());
         }
         finally {
             // по окончанию цикла

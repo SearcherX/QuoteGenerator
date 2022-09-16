@@ -1,17 +1,15 @@
-client: /127.0.0.1:52947
-connection time: 15.09.2022 18:51:26
-log in attempts: 1
+client: /127.0.0.1:58532
+connection time: 16.09.2022 11:14:27
+failed log in attempts: 0
 quotes set: [
-It is better to fail in originality than to succeed in imitation. ~Herman Melville
+The road to success and the road to failure are almost exactly the same. ~Colin R. Davis
 ]
-disconnection time: 15.09.2022 18:51:55
+disconnection time: 16.09.2022 11:14:35
 
-client: /127.0.0.1:53007
-connection time: 15.09.2022 18:54:29
-log in attempts: 1
+client: /127.0.0.1:58535
+connection time: 16.09.2022 11:14:41
+failed log in attempts: 3
 quotes set: [
-Develop success from failures. Discouragement and failure are two of the surest stepping stones to success. ~Dale Carnegie
-Be miserable. Or motivate yourself. Whatever has to be done, it's always your choice. ~Wayne Dyer
 ]
-disconnection time: 15.09.2022 18:54:43
+disconnection time: 16.09.2022 11:14:45
 

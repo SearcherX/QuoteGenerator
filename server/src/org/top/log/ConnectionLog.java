@@ -11,7 +11,7 @@ public class ConnectionLog {
     private final LocalDateTime startConnection;
     private final ArrayList<String> quotes = new ArrayList<>();
     private LocalDateTime stopConnection;
-    private int loginAttempts = 1;
+    private int loginAttempts = 0;
 
     public ConnectionLog(String ipStr, int port, LocalDateTime startConnection) {
         this.address = new Address(ipStr, port);
@@ -64,7 +64,7 @@ public class ConnectionLog {
     public String toString() {
         return "client: " + address + "\n" +
                 "connection time: " + startConnection.format(DATE_TIME_FORMATTER) + "\n" +
-                "log in attempts: " + loginAttempts + "\n" +
+                "failed log in attempts: " + loginAttempts + "\n" +
                 "quotes set: [\n" +
                 getQuotesString() + "]\n" +
                 "disconnection time: " + stopConnection.format(DATE_TIME_FORMATTER) + "\n";
