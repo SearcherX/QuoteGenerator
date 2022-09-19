@@ -76,7 +76,7 @@ public class Server {
                 if (processor != null) {
                     // если есть свободный, то запустить его
                     // создать лог соединения клиента
-                    System.out.println(getPrefix() + " user " + nextClient.getInetAddress().toString() +
+                    System.out.println(getPrefix() + " user " + nextClient.getInetAddress().getHostAddress() +
                             ":" + nextClient.getPort() + " connected");
                     ConnectionLog log = new ConnectionLog(nextClient.getInetAddress().toString(), nextClient.getPort(),
                             LocalDateTime.now());
@@ -85,7 +85,7 @@ public class Server {
                     threadPool.execute(() -> {
                         try {
                             processor.processClient(log);
-                            System.out.println(getPrefix() + " user " + nextClient.getInetAddress().toString() +
+                            System.out.println(getPrefix() + " user " + nextClient.getInetAddress().getHostAddress() +
                                     ":" + nextClient.getPort() + " disconnected");
                         } catch (IOException e) {
                             e.printStackTrace();

@@ -63,7 +63,7 @@ public class ClientProcessor {
             receiver = new Receiver(remoteClient);
 
             sender.sendMsg("server> welcome to quote generator user " +
-                    remoteClient.getInetAddress() + ":" + remoteClient.getPort());
+                    remoteClient.getInetAddress().getHostAddress() + ":" + remoteClient.getPort());
 
             Account account = null;
 
